@@ -6,6 +6,12 @@ myLibrary.push(new Book("20,000 Leagues Under the Sea", "Jules Verne", 212, true
 myLibrary.push(new Book("The War of the Worlds", "H.G. Wells", 287, false));
 displayBooks();
 
+//Set a listener on the 'Add Book" Button to toggle the form visibility
+document.querySelector("#addBook").addEventListener('click', () => {
+    alert("You pressed it!");
+});
+
+//Set a listener on form submission to add book, then toggle form visibility off again
 
 //Book Constructor
 function Book(title, author, pages, readState) {
@@ -16,12 +22,8 @@ function Book(title, author, pages, readState) {
     this.readYet = readState ? "yes" : "no";
 
     this.info = function() {
-        return title + ", by " + author + ", " + pages + " pages, " + readState ? "has been read" : "unread";
+        return title + ", by " + author + ", " + pages + " pages, " + (readState ? "has been read" : "unread");
     }
-}
-
-function addBook() {
-    //Add a book to the library here
 }
 
 function displayBooks() {
