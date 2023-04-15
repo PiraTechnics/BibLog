@@ -25,21 +25,22 @@
             <tbody id="bookEntries">
             </tbody>
         </table>
-        <button type="button" class="btn btn-primary" id="addBookToggle">Add Book</button>
-        <div class="form-container">
-            <form>
+        <button type="button" class="btn btn-primary" id="addBookToggle" data-bs-toggle="collapse"
+            data-bs-target="#addBookFormContainer">Add Book</button>
+        <div id="addBookFormContainer" class="form-container collapse">
+            <form id="addBookForm" action="" method="POST">
                 <div class="form-floating mb-3">
-                    <input class="form-control" id="bookTitle" placeholder="The Hobbit">
+                    <input class="form-control" id="bookTitle" placeholder="The Hobbit" required>
                     <label for="bookTitle">Book Title</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input class="form-control" id="bookAuthor" placeholder="J.R.R. Tolkein">
+                    <input class="form-control" id="bookAuthor" placeholder="J.R.R. Tolkein" required>
                     <label for="bookAuthor">Author</label>
                 </div>
                 <div class="row g-3">
                     <div class="col-md-4">
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="bookPages" placeholder="0">
+                            <input type="number" class="form-control" id="bookPages" placeholder="0" required>
                             <label for="bookPages">Pages</label>
                         </div>
                     </div>
@@ -50,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row g-3"><button type="button" class="btn btn-primary" id="addBook">Add Book to
+                <div class="row g-3"><button type="submit" class="btn btn-primary" id="addBook">Add Book to
                         Library</button></div>
             </form>
         </div>

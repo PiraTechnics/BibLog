@@ -4,14 +4,27 @@ let myLibrary = [];
 myLibrary.push(new Book("The Hobbit", "J.R.R. Tolkein", 304, true));
 myLibrary.push(new Book("20,000 Leagues Under the Sea", "Jules Verne", 212, true));
 myLibrary.push(new Book("The War of the Worlds", "H.G. Wells", 287, false));
-displayBooks();
-
-//Set a listener on the 'Add Book" Button to toggle the form visibility
-document.querySelector("#addBook").addEventListener('click', () => {
-    alert("You pressed it!");
-});
+displayAllBooks();
 
 //Set a listener on form submission to add book, then toggle form visibility off again
+document.querySelector("#addBookForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    console.log("Sucessfully prevented default submit behavior!");
+
+    //Get info in form and add (form fields are required in HTML)
+    const formData = document.querySelectorAll("input");
+    const newEntry = new Book(formData[0].value, formData[1].value, formData[2].value, formData[3].checked);
+    
+    myLibrary.push(newEntry);
+    createBookEntry(newEntry);
+    
+    console.log(newEntry);
+
+
+    //Turn off visibility on div, then return (instead of sending POST)
+    document.getElementById("addBookFormContainer").classList.remove("show");
+    return false;
+});
 
 //Book Constructor
 function Book(title, author, pages, readState) {
@@ -26,9 +39,15 @@ function Book(title, author, pages, readState) {
     }
 }
 
-function displayBooks() {
+function displayAllBooks() {
     myLibrary.forEach(book => {
-        const newRow = document.createElement("tr");
+        createBookEntry(book);    
+    });
+}
+
+//Function to only display a single book -- helper function for updating
+function createBookEntry(book) {
+    const newRow = document.createElement("tr");
         //need to append each cell to the row, and then appendChild the row to the tbody element
         
         //create each table cell for the entry
@@ -52,5 +71,4 @@ function displayBooks() {
         document.getElementById("bookEntries").appendChild(newRow);
 
         console.log("Added entry: " + book.info());
-    });
 }
