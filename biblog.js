@@ -22,6 +22,7 @@ document.querySelector("#addBookForm").addEventListener("submit", (event) => {
     createBookEntry(newEntry);
 
     console.log(newEntry);
+    console.log(newEntry.getInfo());
 
     //Turn off visibility on div, then return (instead of sending POST)
     document.getElementById("addBookFormContainer").classList.remove("show");
@@ -123,7 +124,4 @@ function createBookEntry(book) {
     //Append all cells to row, then row to tbody in DOM
     newRow.append(titleCell, authorCell, pagesCell, readCell, removeBookCell);
     document.getElementById("bookEntries").appendChild(newRow);
-
-    //For some reason, this throws a an error: getInfo not a function -- some kind of scope issue -___-
-    //console.log("Added entry: " + book.getInfo());
 }
