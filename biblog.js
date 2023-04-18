@@ -1,3 +1,5 @@
+
+//Static Content (placeholder until we implement actual storage/backend)
 let myLibrary = [];
 
 //fill in some static books for now
@@ -5,31 +7,9 @@ myLibrary.push(new Book("The Hobbit", "J.R.R. Tolkein", 304, true));
 myLibrary.push(new Book("20,000 Leagues Under the Sea", "Jules Verne", 212, true));
 myLibrary.push(new Book("The War of the Worlds", "H.G. Wells", 287, false));
 displayAllBooks();
+//END Static Content
 
-//Set a listener on form submission to add book, then toggle form visibility off again
-document.querySelector("#addBookForm").addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    //Get info in form and add (form fields are required in HTML)
-    const entryTitle = document.querySelector("input#bookTitle");
-    const entryAuthor = document.querySelector("input#bookAuthor");
-    const entryPages = document.querySelector("input#bookPages");
-    const entryRead = document.querySelector("input#bookRead");
-
-    const newEntry = new Book(entryTitle.value, entryAuthor.value, entryPages.value, entryRead.checked);
-
-    myLibrary.push(newEntry);
-    createBookEntry(newEntry);
-
-    console.log(newEntry);
-    console.log(newEntry.getInfo());
-
-    //Turn off visibility on div, then return (instead of sending POST)
-    document.getElementById("addBookFormContainer").classList.remove("show");
-    return false;
-});
-
-//Book Constructor
+//Book Constructor & Prototype
 function Book(title, author, pages, readState) {
     this.title = title;
     this.author = author;
@@ -49,14 +29,41 @@ Book.prototype.setReadState = function(newState) {
 Book.prototype.getInfo = function() {
     return this.title + ", by " + this.author + ", " + this.pages + " pages, " + (this.readState ? "read" : "unread");
 }
+//END Book Constructor & Prototype
 
+//Library Table Manipulation Functions
+
+// Toggle AddBookForm Visibility & Bind to Button
+document.querySelector("#addBookForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    //Get info in form and add (form fields are required in HTML)
+    const entryTitle = document.querySelector("input#bookTitle");
+    const entryAuthor = document.querySelector("input#bookAuthor");
+    const entryPages = document.querySelector("input#bookPages");
+    const entryRead = document.querySelector("input#bookRead");
+
+    const newEntry = new Book(entryTitle.value, entryAuthor.value, entryPages.value, entryRead.checked);
+
+    myLibrary.push(newEntry);
+    createBookEntry(newEntry);
+
+    console.log(newEntry);
+    console.log(newEntry.getInfo());
+
+    //Turn off visibility on div, then return (instead of sending POST)
+    document.getElementById("addBookFormContainer").classList.remove("show");
+    return false; //needed to complete override of preventDefault
+});
+
+// Add Table Entry for each book in myLibrary[]
 function displayAllBooks() {
     myLibrary.forEach(book => {
         createBookEntry(book);
     });
 }
 
-//Remove Book Entry Function (and remove from array)
+// Remove Table Entry & Library Entry @index
 function removeBook(index) {
     toRemove = document.querySelector('[data-row-num="' + index + '"]');
     delete myLibrary[index]; //doesn't reindex, but that's fine for now
@@ -64,7 +71,7 @@ function removeBook(index) {
     console.log(myLibrary);
 }
 
-//Add Book Table Entry Function
+//Add Table Entry from passed Book
 function createBookEntry(book) {
     const newRow = document.createElement("tr");
     //Set row number as data-attribute
