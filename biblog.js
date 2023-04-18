@@ -1,3 +1,22 @@
+//Book Class and get/set methods
+class Book {
+    constructor(title, author, pages, readState = false) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.readState = readState;
+    }
+
+    get info() {
+        return this.title + ", by " + this.author + ", " + this.pages + " pages, " + (this.readState ? "read" : "unread");
+    }
+
+    get readYet() {
+        return (this.readState ? "yes" : "no");
+    }
+}
+//END Book Class Declarations
+
 
 //Static Content (placeholder until we implement actual storage/backend)
 let myLibrary = [];
@@ -9,30 +28,7 @@ myLibrary.push(new Book("The War of the Worlds", "H.G. Wells", 287, false));
 displayAllBooks();
 //END Static Content
 
-//Book Constructor & Prototype
-function Book(title, author, pages, readState) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.readState = readState;
-    this.readYet = readState ? "yes" : "no";
-}
-
-//Define toggle read state on prototype of Book
-//Note: We could do this on the book object itself, but that would create the function on each instance of 'Book', which would eat a lot of memory at scale.
-Book.prototype.setReadState = function(newState) {
-    this.readState = newState;
-    //Update readYet to match
-    this.readYet = this.readState ? "yes" : "no";
-}
-
-Book.prototype.getInfo = function() {
-    return this.title + ", by " + this.author + ", " + this.pages + " pages, " + (this.readState ? "read" : "unread");
-}
-//END Book Constructor & Prototype
-
 //Library Table Manipulation Functions
-
 // Toggle AddBookForm Visibility & Bind to Button
 document.querySelector("#addBookForm").addEventListener("submit", (event) => {
     event.preventDefault();
@@ -49,7 +45,7 @@ document.querySelector("#addBookForm").addEventListener("submit", (event) => {
     createBookEntry(newEntry);
 
     console.log(newEntry);
-    console.log(newEntry.getInfo());
+    console.log(newEntry.info);
 
     //Turn off visibility on div, then return (instead of sending POST)
     document.getElementById("addBookFormContainer").classList.remove("show");
@@ -102,10 +98,10 @@ function createBookEntry(book) {
     readSwitch.id = "readSwitch-" + newRow.dataset.rowNum;
     readSwitch.checked = book.readState;
     readSwitch.oninput = function () {
-        book.setReadState(readSwitch.checked);
+        book.readState = readSwitch.checked;
         //Update entry on table
         readlabel.innerText = book.readYet;
-        console.log(book.getInfo());
+        console.log(book.info);
     }
 
     readlabel.classList.add("form-check-label");
@@ -131,4 +127,5 @@ function createBookEntry(book) {
     //Append all cells to row, then row to tbody in DOM
     newRow.append(titleCell, authorCell, pagesCell, readCell, removeBookCell);
     document.getElementById("bookEntries").appendChild(newRow);
+    console.log("Added to Library: " + book.info);
 }
